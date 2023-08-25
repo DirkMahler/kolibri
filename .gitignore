@@ -6,6 +6,7 @@ esm/
 umd/
 types/
 node_modules/
+**/.reports/jqa/**/*
 
 package-lock.json
 .DS_Store

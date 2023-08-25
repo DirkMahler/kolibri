@@ -4,6 +4,8 @@
 /public/
 /screenshot/
 /www/
+/jqassistant/store/
+/jqassistant/report/
 custom-elements.json
 jest-test-results.json
 lighthouse.report.html

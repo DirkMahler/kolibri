@@ -7,7 +7,7 @@
 	</group>
 
 	<concept id="kolibri:PropType">
-		<description></description>
+		<description>Markiert Type-Alias, das Prop-Felder definiert, und die dazugehörigen Members als PropType bzw. PropTypeFields</description>
 		<cypher><![CDATA[
 				MATCH (m:TS:Module)-[:EXPORTS]->(ta:TS:TypeAlias)
 				WHERE m.fileName STARTS WITH "/src/types/props"
@@ -22,7 +22,7 @@
 
 	<constraint id="kolibri:PropTypeFieldMustBeUnique">
 		<requrires refid="kolibri:PropType"/>
-		<description></description>
+		<description>Prop-Felder müssen global unique sein.</description>
 		<cypher><![CDATA[
 				MATCH (pt:KoliBri:PropType)-[:DEFINES]-(pf:KoliBri:PropTypeField)
 				WITH pt.name AS propType, pf.name AS propName
