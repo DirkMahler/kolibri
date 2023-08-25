@@ -3,8 +3,7 @@
 									 xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 http://schema.jqassistant.org/rule/jqassistant-rule-v1.10.xsd">
 
 	<group id="kolibri:Default">
-		<includeConstraint refId="nexusiq:Warning"/>
-		<includeConstraint refId="nexusiq:Failure"/>
+		<includeConstraint refId="kolibri:*"/>
 	</group>
 
 	<concept id="kolibri:PropType">
@@ -21,7 +20,7 @@
 			]]></cypher>
 	</concept>
 
-	<constraint id="nexusiq:Failure" severity="major">
+	<constraint id="kolibri:PropTypeFieldMustBeUnique">
 		<requrires refid="kolibri:PropType"/>
 		<description></description>
 		<cypher><![CDATA[
