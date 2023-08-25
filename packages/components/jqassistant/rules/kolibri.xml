@@ -1,0 +1,36 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+									 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+									 xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 http://schema.jqassistant.org/rule/jqassistant-rule-v1.10.xsd">
+
+	<group id="kolibri:Default">
+		<includeConstraint refId="nexusiq:Warning"/>
+		<includeConstraint refId="nexusiq:Failure"/>
+	</group>
+
+	<concept id="kolibri:PropType">
+		<description></description>
+		<cypher><![CDATA[
+				MATCH (m:TS:Module)-[:EXPORTS]->(ta:TS:TypeAlias)
+				WHERE m.fileName STARTS WITH "/src/types/props"
+				WITH ta
+				MATCH (ta)-[:OF_TYPE]->(:TS:Type:Object)-[:HAS_MEMBER]->(member:TS:ObjectMember)
+				SET ta:KoliBri:PropType
+				SET member:KoliBri:PropTypeField
+				CREATE (ta)-[:DEFINES]->(member)
+				RETURN ta.name as PropType, collect(member.name) as PropTypeFields
+			]]></cypher>
+	</concept>
+
+	<constraint id="nexusiq:Failure" severity="major">
+		<requrires refid="kolibri:PropType"/>
+		<description></description>
+		<cypher><![CDATA[
+				MATCH (pt:KoliBri:PropType)-[:DEFINES]-(pf:KoliBri:PropTypeField)
+				WITH pt.name AS propType, pf.name AS propName
+				WITH propName, COLLECT(propType) AS types
+				WHERE SIZE(types) > 1
+				RETURN propName, types
+		]]></cypher>
+	</constraint>
+
+</jqassistant-rules>
